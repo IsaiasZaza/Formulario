@@ -1,55 +1,86 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
 
 <template>
-  <theHeader v-if="showHeader"/>
+  <div> 
+      <div>
+        <TheHeaderVue />
+      </div>
 
-    <div v-show="showName">
-      Nome: {{ name }}
-      SobreNome {{ sobreName }}
-    </div>
-    <div v-if="acessLevel === 'admin'">Admin</div>
-    <div v-else-if="acessLevel === 'User'">User</div>
-    <div v-else>Usuário normal</div>
-  <header>
-    <img 
-    alt="Vue logo" class="logo" src="@/assets/logo.svg" 
-    width="125" height="125" />
+      <div>
+        <watch>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+        </watch>
+      </div>
+      <RouterView>
+       
+      </RouterView>
+      
+  </div>
+  <div>
+    <ciclo :variant="variant" @close="onClose()" v-if="showAlert">
+    {{ text }}
+    </ciclo>
+    
+  </div>
 </template>
 
 <script lang="ts">
-  import TheHeader from './components/theHeader.vue'
+import TheHeaderVue from './components/TheHeader.vue';
+import watch from './components/watch.vue';
+import ciclo from './components/ciclo.vue';
 
-  export default {
-    name: 'App',
-    components: {
-      HelloWorld,
-      TheHeader
-    },
-    data() {
-      return {
-          showHeader: true,
-          name: 'Jon Snow',
-          sobreName: 'Targheryan',
-          showName: false,
-          acessLevel: ''
-      }
+export default {
+  name: 'App',
+  components: {
+    TheHeaderVue,
+    watch,
+    ciclo,
+},
+  data() {
+    return {
+      showAlert: true,
+        user: 'isaias',
+        variant: 'sucess',
+        text: 'Seu formulario foi enviado',
+
+    }
+  },
+  watch: {
+    user: {
+      handler() {
+        console.log('eae')
+      },
+      deep: true,
+    }
+  },
+
+  //hooks
+  beforeCreate(){
+    console.log('beforeCiado');
+    console.log(this.user);
+  },
+  created(){
+    console.log('Ciado')
+  },
+  beforeMount(){
+    console.log('beforeMount')
+  },
+  mounted(){
+    console.log('mounted')
+  },
+  beforeUnmount(){
+    console.log('UnMount')
+  },
+  unmounted(){
+    console.log('jaeraMount')
+
+  },
+  methods: {
+    onClose(){
+      this.showAlert = false
+    }
     }
   }
+
 
 </script>
 
